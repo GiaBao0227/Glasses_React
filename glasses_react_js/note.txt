@@ -1,0 +1,77 @@
+Để phân tích đoạn mã theo mô hình 3 lớp Input - Process - Output, chúng ta sẽ chia các phần của mã thành 3 nhóm:
+
+1. Input (Dữ liệu đầu vào)
+Đây là các thông tin, dữ liệu hoặc hành động mà người dùng cung cấp cho ứng dụng.
+
+Dữ liệu đầu vào từ người dùng:
+
+Chọn kính: Khi người dùng nhấp vào một kính trong danh sách, thông tin về kính đó sẽ được truyền vào ứng dụng.
+Sự kiện nhấp chuột (onClick): Khi người dùng nhấp vào kính nào đó, hàm handleChangeGlasses sẽ được gọi và truyền đối tượng glasses (một phần tử trong glassesData).
+Dữ liệu đầu vào từ JSON:
+
+Dữ liệu kính (glassesData): Đây là một mảng chứa các đối tượng kính, mỗi đối tượng bao gồm các thuộc tính như id, url, name, price, desc. Dữ liệu này được lấy từ tệp data.json.
+javascript
+Copy code
+const glassesData = [
+  {
+    "id": 1,
+    "price": 30,
+    "name": "GUCCI G8850U",
+    "url": "./glassesImage/v1.png",
+    "desc": "Light pink square lenses define these sunglasses, ending with amother of pearl effect tip."
+  },
+  // Các đối tượng kính khác
+];
+2. Process (Quá trình xử lý)
+Đây là các thao tác hoặc logic mà ứng dụng thực hiện khi nhận được dữ liệu đầu vào.
+
+Quá trình khi người dùng chọn kính:
+
+Khi người dùng nhấp vào một kính từ danh sách, hàm handleChangeGlasses sẽ được gọi. Thao tác này sẽ nhận đối tượng kính từ mảng glassesData và thực hiện hai hành động:
+Cập nhật glassesUrl: Đặt giá trị glassesUrl là URL của kính được chọn, để hiển thị kính trên người mẫu.
+Cập nhật selectedGlasses: Đặt giá trị selectedGlasses là thông tin của kính được chọn, để hiển thị thông tin chi tiết về kính đó.
+Quá trình cập nhật trạng thái:
+
+Khi người dùng nhấp vào kính, trạng thái glassesUrl và selectedGlasses sẽ được cập nhật. React sẽ tự động re-render (vẽ lại) giao diện để phản ánh các thay đổi này.
+javascript
+Copy code
+const handleChangeGlasses = (glasses) => {
+  setGlassesUrl(glasses.url); // Cập nhật ảnh kính
+  setSelectedGlasses(glasses); // Cập nhật thông tin kính
+};
+3. Output (Kết quả đầu ra)
+Đây là những gì người dùng thấy sau khi quá trình xử lý được thực hiện.
+
+Hiển thị người mẫu và kính:
+
+Ảnh người mẫu (modelImg): Luôn hiển thị ảnh người mẫu mặc định.
+Ảnh kính (glassesUrl): Khi người dùng chọn một kính, ảnh kính đó sẽ được hiển thị trên người mẫu. Nếu không có kính nào được chọn (khi glassesUrl là null), thì không có kính nào được hiển thị trên người mẫu.
+Thông tin kính được chọn:
+
+Sau khi người dùng chọn kính, các thông tin như tên kính, giá và mô tả sẽ được hiển thị dưới khu vực người mẫu. Nếu không có kính nào được chọn, thông tin này sẽ không được hiển thị.
+javascript
+Copy code
+{glassesUrl && (
+  <img
+    src={glassesUrl}
+    alt="Glasses"
+    className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-60 opacity-70"
+  />
+)}
+
+{selectedGlasses && (
+  <div className="mt-10 text-center">
+    <h2 className="text-2xl font-bold">{selectedGlasses.name}</h2>
+    <p className="text-gray-600">${selectedGlasses.price}</p>
+    <p className="text-gray-500">{selectedGlasses.desc}</p>
+  </div>
+)}
+Tóm tắt mô hình 3 lớp:
+Lớp	Mô tả
+Input	- Người dùng nhấp vào một kính trong danh sách.
+- Dữ liệu kính từ glassesData (tệp JSON).
+Process	- Cập nhật trạng thái glassesUrl và selectedGlasses khi người dùng chọn kính.
+- Quá trình xử lý trong hàm handleChangeGlasses.
+Output	- Hiển thị ảnh người mẫu và kính trên người mẫu.
+- Hiển thị thông tin chi tiết về kính được chọn.
+Hy vọng phân tích này giúp bạn hiểu rõ hơn về cách hoạt động của ứng dụng theo mô hình 3 lớp!
